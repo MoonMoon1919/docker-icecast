@@ -12,17 +12,17 @@ RUN yum update -y \
 RUN yum install -y icecast
 
 ##Add user and switch users
-RUN useradd -rm max 
-USER max
+RUN useradd -rm user 
+USER user
 
 ##Make Documents directory and copy icecast config file
-WORKDIR /home/max
+WORKDIR /home/user
 RUN mkdir Documents
-COPY icecast.xml /home/max/Documents/
+COPY icecast.xml /home/user/Documents/
 
 ##Change to root user to make permissions changes
 USER root
-RUN chmod u+x /home/max/Documents/icecast.xml
+RUN chmod u+x /home/user/Documents/icecast.xml
 
 ##Add logs
 WORKDIR /var/log/icecast
@@ -33,13 +33,13 @@ RUN umask 000 \
 	playlist.log
 
 #Adjust ownership of Icecast
-RUN chown max:max -R /var/log/icecast
+RUN chown user:user -R /var/log/icecast
 
-USER max
+USER user
 
 ##Expose port 8000 in the container
 EXPOSE 8000
 VOLUME ["/var/log/icecast"]
 
 ##Add icecas start to container launch
-CMD icecast -c /home/max/Documents/icecast.xml
+CMD icecast -c /home/user/Documents/icecast.xml
