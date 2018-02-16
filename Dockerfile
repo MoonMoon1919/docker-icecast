@@ -14,7 +14,7 @@ RUN yum update -y \
 RUN yum install -y icecast
 
 ##Add user and switch users
-RUN useradd -rm $user
+RUN useradd -D $user
 USER $user
 
 ##Make Documents directory and copy icecast config file
